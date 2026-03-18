@@ -1,0 +1,26 @@
+{
+    "hi": "Hello Architect. System nominal.",
+    "status": "All systems functioning within parameters.",
+    "help": "Commands: hsave [q], hrun [os/project], teach [q]=[a], hcam, hlist, hedit [name], ghost",
+    "stop cam": [
+        "run::killall php ssh && echo -e \"\\033[38;5;196m[SENTINEL DEACTIVATED]\\033[0m\""
+    ],
+    "ping google": [
+        "run::ping -c 4 google.com"
+    ],
+    "ping youtube": [
+        "run::echo -e \"${C}[HAXX]${RES} Testing latency to YouTube Uplink...\" && ping -c 4 youtube.com"
+    ],
+    "speedtest": [
+        "run::echo -e \"${C}[HAXX]${RES} Scanning Network Uplink...\" && speedtest-cli --simple"
+    ],
+    "myip": [
+        "run::echo -e \"${C}[HAXX]${RES} Scanning Network Identity...\\n\" && echo -e \"${G}Local IP:${RES}\" && ifconfig | grep \"inet \" | grep -v 127.0.0.1 | awk '{print $2}' && echo -e \"\\n${M}Public IP:${RES}\" && curl -s ifconfig.me"
+    ],
+    "stop": [
+        "run::echo -e \"${R}[!] TERMINATING BACKGROUND PROTOCOLS...${RES}\" && killall python3 php ssh && echo -e \"${G}[+] SYSTEM PORTS CLEARED.${RES}\""
+    ],
+    "get os": [
+        "run::bash -c 'read -p \"Enter OS Name: \" osname && proot-distro install $osname'"
+    ]
+}
