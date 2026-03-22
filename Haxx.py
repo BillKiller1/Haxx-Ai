@@ -93,7 +93,7 @@ def ask_ai(prompt, silent=False):
     try:
         ident = f"You are HAXX, a tactical terminal AI for {USER}. Be brief and professional."
         # Timeout set to 60 seconds as requested
-        res = requests.get(f"https://text.pollinations.ai/{ident}\nQ:{prompt}", timeout=60)
+        res = requests.get(f"https://text.pollinations.ai/{ident}\nQ:{prompt}", timeout=120)
         if res.status_code == 200: return res.text.strip()
     except: pass
     return None if silent else "Neural link unstable. Check connection."
@@ -142,20 +142,19 @@ while True:
         if hclock_module(ui): continue
         if pk_module(ui_clean): continue
 
-        # 3. H-EDIT (IDE)
+        # 3. H-ENGINE (UPGRADED IDE)
         if ui.startswith("hedit "):
             filename = ui_clean[6:].strip()
-            if not filename.endswith(".py"): filename += ".py"
-            path = os.path.join(PROJECT_DIR, filename)
-            print(f"\n{Y}[ HEDIT: {filename} ]{RES}\n{W}Type 'SAVE' or 'EXIT'{RES}")
-            lines = []
-            while True:
-                line = input(f"{C}» {RES}")
-                if line.strip().upper() == "SAVE":
-                    with open(path, "w") as f: f.write("\n".join(lines))
-                    speak("Project file written to storage."); break
-                elif line.strip().upper() == "EXIT": break
-                lines.append(line)
+            if not filename:
+                print(f"{R}[!] Error: Provide a filename.{RES}")
+                continue
+            
+            # This calls your new modular core file
+            print(f"\n{C}[ INITIALIZING H-ENGINE: {filename} ]{RES}")
+            import subprocess
+            subprocess.run(["python3", "hengine_core.py", filename])
+            
+            speak("Returning to HAXX control.")
             continue
 
         # --- 4.0 H-RUN MODULE (WITH AUTO-CHAIN BRIDGE) ---
